@@ -1,0 +1,8 @@
+name: SK-VILLAGE
+description: "This is a plugin that implements the old village feature for Pocketmine servers"
+version: 1.1-BETA
+main: SkulZOnTheYT\SKV\Main
+api: 5.0.0
+softdepend: Worlds, MultiWorld
+author: SkulZOnTheYT
+load: STARTUP
