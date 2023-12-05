@@ -25,17 +25,12 @@ class SKVillages extends PluginBase implements Listener {
 
     private $populators = [];
 
-    public function onLoad() {
+    public function onLoad(): void {
         self::$instance = $this;
     }
 
-    public function onEnable() {
+    public function onEnable(): void {
         try {
-            // MetricsLite initialization (if available in PocketMine)
-        } catch (\Throwable $ignore) {
-            // Handle exceptions if necessary
-        }
-
         // Initialize village pieces
         VillagePieces::init();
 
@@ -47,10 +42,10 @@ class SKVillages extends PluginBase implements Listener {
      * @param LevelLoadEvent $event
      * @priority MONITOR
      */
-    public function onLevelLoad(LevelLoadEvent $event): void {
+    public function onWorldLoad(WorldLoadEvent $event): void {
         $populators = [];
-        $level = $event->getLevel();
-        $generator = $level->getGenerator();
+        $world = $event->getWorld();
+        $generator = $world->getGenerator();
         if ($generator->getId() !== Generator::TYPE_FLAT && $generator->getDimension() === Level::DIMENSION_OVERWORLD) {
             $populators[] = new PopulatorVillage($generator instanceof Normal);
         }
@@ -70,11 +65,11 @@ class SKVillages extends PluginBase implements Listener {
     }
 
     /**
-     * @param LevelUnloadEvent $event
+     * @param WorldUnloadEvent $event
      * @priority MONITOR
      */
-    public function onLevelUnload(LevelUnloadEvent $event): void {
-        unset($this->populators[spl_object_id($event->getLevel())]);
+    public function onWorldUnload(WorldUnloadEvent $event): void {
+        unset($this->populators[spl_object_id($event->getWorld())]);
     }
 
    public static function getInstance() : self {
